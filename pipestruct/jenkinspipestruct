@@ -6,46 +6,35 @@ pipeline {
     environment {
         // Define environment variables here
         //declaring any kind of parameter in my jenkins job
-        MY_ENV_VAR = "Custom Value"
+        MY_ENV_VAR = "some_value"
     }
 
     stages {
         stage('Checkout'){
             steps {
-                script {
-                    //clone the Git repository's master branch
-                    def gitRepoUrl = 'https://github.com/Franck-maker/Jenkins_project.git'
-
-                    checkout ([$class: 'GitSCM',
-                        branches: [[name:'*/main']],
-                        userRemoteConfigs: [[url: gitRepoUrl]], 
-                        extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, shallow: true, depth: 1]]
-                    ])
-                }
+                // Checkout your source code from your version control system
+                chekout scm
         }
     }
 
     stage('Build'){
             steps {
                 // Build your application here (e.g., compile, package, etc.)
-                sh '''
-                ls
-                echo "In Build Step"
-                '''
+                sh 'your_build_command'
         }
     }
 
     stage('Test'){
             steps {
                 // Run your tests (e.g., unit tests, integration tests)
-                sh 'echo "In Test Step"'
+                sh 'your_test_command'
         }
     }
 
     stage('Deploy'){
             steps {
                 // Deploy your application to a target environment
-                sh 'echo "Value of ENV Variable is "$MY_ENV_VAR""'
+                sh 'your_deploy_command'
         }
     }
 
